@@ -3,14 +3,23 @@
     include 'functions.php';
     $action = '';
     $flag = 0;
-    
+
+    if (!isset($_SESSION['lists'])){
+        $_SESSION['lists'] = array();
+    }
+    if (!isset($_SESSION['completed'])){
+        $_SESSION['completed'] = array();
+    }
+
     if (isset($_POST['action'])){
         $list = $_POST['list'];
         $action = $_POST['action'];
         $list_id = $_POST['hid_val'];
         switch ($action){
             case 'add':
-                addList($list);
+                if (strlen($list)!=0){
+                    addList($list);
+                }
                 break;
             case 'delete':
                 $del_id = $_POST['hid_val'];
@@ -32,7 +41,9 @@
                 break;
             case 'update':
                 $updatedList = $_POST['list'];
-                $_SESSION['lists'][$_SESSION['id']] = $updatedList;
+                if (strlen($updatedList)!=0){
+                    $_SESSION['lists'][$_SESSION['id']] = $updatedList;
+                }
                 $flag = 0;
                 break;
             case 'checkBox':
